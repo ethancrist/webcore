@@ -8,9 +8,9 @@
 var Core = {
     init: function(options) {
         // May or may not need this to set global options for the lib
-    	//this.setOptions();
-	},
-    
+    	//this.setOptions()},
+    },
+
     setOptions: function(defaultOptions, options) {
         /**
          * @purpose Merge two objects that may or may not overlap where the options override
@@ -42,6 +42,34 @@ var Core = {
         return newOptions
     },
 
+    addScript: function(options) {
+        /**
+	 * @purpose Add a script to the DOM without jQuery
+	 * @usage addScript({ src: 'myscript.js', callback: function() { console.log('Script '+src+' is ready!') } })
+	 * @returns [DOM object] Script 
+	 **/
+	 var defaultOptions = {
+             id: '', // HTML element ID to be set
+             classes: [], // Any and all classes the element will have
+             src: 'site.js', // Source for the script
+	     callback: function() {} // Callback when the script is loaded
+	 };
+	 options = this.setOptions(defaultOptions, options);
+	 
+	 var script = document.createElement('script');
+	 script.id = options.id;
+	 
+	 for (var i = 0; i < options.classes.length; i++) {
+	     script.classList.add(options.classes[i])
+	 };
+	 
+	 script.src = options.src;
+	 script.onload = options.callback;
+	 
+	 // document.head.append is not yet fully cross-browser, hence [...].appendChild
+	 return document.getElementsByTagName('head')[0].appendChild(script);
+    },
+	
     isMobile: {
         /**
          * @purpose Detect if user is on a mobile device, and if so which device
