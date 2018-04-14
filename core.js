@@ -14,8 +14,8 @@ var Core = {
     setOptions: function(defaultOptions, options) {
         /**
          * @purpose Merge two objects that may or may not overlap where the options override
-		 *			the default but the default are a fallback if an option wasn't set
-		 * @usage Core.setOptions({ unsetOption: 'defaultValue', otherOption: 'defaultValue' }, { otherOption: 'set' })
+         *          the default but the default are a fallback if an option wasn't set
+         * @usage Core.setOptions({ unsetOption: 'defaultValue', otherOption: 'defaultValue' }, { otherOption: 'set' })
          * @returns [object] e.g. { unsetOption: 'defaultValue', otherOption: 'set' }
          **/
         if (options === undefined) options = {};
@@ -67,7 +67,5 @@ var Core = {
             return this.Android() || this.BlackBerry() || this.iOS() || this.Opera() || this.Windows()
         }
     },
-
-
     
 }
