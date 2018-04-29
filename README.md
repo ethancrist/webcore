@@ -6,6 +6,7 @@ Lightweight, feature-rich, all purpose library for the web.
 
 ###### [core.js](core.js)
 
+---
 ### [`Core.init [function]`](core.js#L9)
 #### Options
 
@@ -15,6 +16,7 @@ Type: `Boolean` Default: `false`
 Will refresh with HTTPS if user loads the page on HTTP.
 
 
+---
 ### [`Array.remove [function]`](core.js#L36)
 Remove index from array by its value.
 
@@ -34,6 +36,7 @@ This is a simpler integration than Array.splice, as you need not know the index 
 The new array without the removed item.
 
 
+---
 ### [`String.replaceAll [function]`](core.js#L53)
 Replaces all instances of substring in string.
 
@@ -54,6 +57,7 @@ Replace one substring
 The new string with proper replacement(s).
 
 
+---
 ### [`String.capitalize [function]`](core.js#L76)
 Capitalize the first letter of a string.
 
@@ -71,6 +75,7 @@ test = test.capitalize();
 `String` with first letter capitalized.
 
 
+---
 ### [`Function.async [function]`](core.js#L89)
 Loads a function asynchronously.
 
@@ -89,6 +94,7 @@ console.log('Will log when first logging is done!')
 ```
 
 
+---
 ### [`$('selector').getMargins [function]`](core.js#L113)
 Get the margins of a particular element, returned as a float.
 
@@ -113,6 +119,7 @@ Top, bottom, left, and right pixel margin numbers of the element.
 ```
 
 
+---
 ### [`$('selector').globalCSS [function]`](core.js#L139)
 An upgrade from jQuery's $('selector').css; adds a cross-browser CSS property all in one go.
 
@@ -133,6 +140,7 @@ $('button').globalCSS({ animation: 'myanimation 1s forwards' })
 Element(s) passed in.
 
 
+---
 ### [`$('selector').rotate [function]`](core.js#L167)
 Rotates an element with an optional animation.
 
@@ -153,6 +161,7 @@ $('#my-div, #my-other-div').rotate({ degrees: -70 });
 Element(s) passed in.
 
 
+---
 ### [`$('selector').isFilled [function]`](core.js#L204)
 Check if an input or a set of inputs have text in them.
 
@@ -161,6 +170,7 @@ Check if an input or a set of inputs have text in them.
 Type: `Boolean`
 
 
+---
 ### [`$('selector').dumpCSS [function]`](core.js#L225)
 Get all CSS for element
 
@@ -174,6 +184,7 @@ Strings of the CSS for the element(s) specified, with a chronological numeric in
 ```
 
 
+---
 ### [`Core.setOptions [function]`](core.js#L251)
 Merge two objects that may or may not overlap where the options override the default but the default are a fallback if an option wasn't set.
 
@@ -193,6 +204,7 @@ Type: `Object`
 ```
 
 
+---
 ### [`Core.addScript [function]`](core.js#L287)
 Add a script to the DOM with a callback.
 
@@ -210,6 +222,7 @@ Type: `Element`
 The script element that has been added.
 
 
+---
 ### [`Core.isMobile [object]`](core.js#L319)
 Detect if user is on a mobile device, and if so which device.
 
@@ -232,6 +245,7 @@ Type: `Array`
 `null` or the device data for the mobile device being used.
 
 
+---
 ### [`getParameter [function]`](core.js#L354)
 Get a parameter from a URL. If no URL is passed, the current one is used.
 
@@ -248,6 +262,7 @@ getParameter('dog', 'https://mydogs.net?dog=beagle');
 Parameter value specified.
 
 
+---
 ### [`setParameter [function]`](core.js#L377)
 Set a query to the current URL.
 
@@ -277,6 +292,7 @@ Type: `Object`
 Contains `key` which is the parameter name, as well as its `value` and the new `url`
 
 
+---
 ### [`getMS [function]`](core.js#L427)
 Get the current time since last epoch in milliseconds.
 
@@ -287,6 +303,7 @@ Type: `Number`
 MS since last epoch.
 
 
+---
 ### [`random [function]`](core.js#L437)
 Get random `Integer` with a specified ceiling and optional blacklist of numbers.
 
@@ -314,6 +331,7 @@ An array of numbers that will be re-randomized if hit.
 Random `Number`
 
 
+---
 ### [`uncacheFile [function]`](core.js#L463)
 Get a new file name with an uncaching query on the end.
 
@@ -334,6 +352,7 @@ file.js_?=4540647
 ```
 
 
+---
 ### [`preload [function]`](core.js#L479)
 Preload an array of images synchronously with a callback at the end.
 
@@ -356,6 +375,7 @@ console.log(JSON.stringify(metadata));
 ```
 
 
+---
 ### [`waitUntilThis [function]`](core.js#L523)
 Wait until a specific condition happens. Make sure to wrap the condition in a function and a return statement so that the Boolean can be checked dynamically!
 
