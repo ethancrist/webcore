@@ -9,11 +9,15 @@ var Core = {
     init: function(options) {
         /**
          * @meta Core.init [function]
-         * @options ##### `forceHTTPS`
+         * @options ##### `ready`
+	 *          Type: `Function`
+	 *          Function that loads once Webcore is fully initialized.
+	 *          ##### `forceHTTPS`
          *          Type: `Boolean` Default: `false`
          *          Will refresh with HTTPS if user loads the page on HTTP.
          **/
         var defaultOptions = {
+	    ready: function() {},
             forceHTTPS: false
         };
         options = Core.setOptions(defaultOptions, options);
@@ -26,6 +30,7 @@ var Core = {
             $(document).ready(function() {
                 Core.supplementJS();
                 Core.supplementJQuery();
+	        options.ready();
             });
         }})
         
