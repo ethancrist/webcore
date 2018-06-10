@@ -5,7 +5,7 @@
  * @git https://github.com/ethancrist/webcore.git
  **/
 
-var Core = {
+const Core = {
     init: function(options) {
         /**
          * @meta Core.init [function]
@@ -16,7 +16,7 @@ var Core = {
          *          Type: `Boolean` Default: `false`
          *          Will refresh with HTTPS if user loads the page on HTTP.
          **/
-        var defaultOptions = {
+        const defaultOptions = {
 	    ready: function() {},
             forceHTTPS: false
         };
@@ -38,79 +38,79 @@ var Core = {
 
     supplementJS: function() {
         // Adding functions to native JavaScript
-		Array.prototype.remove = function(item) {
-			 /**
-			  * @meta Array.remove [function]
-			  * @purpose Remove index from array by its value.
-			  * @justify This is a simpler integration than Array.splice, as you need not know the index beforehand.
-			  * @usage ```javascript
-			  *        ['This', 'is', 'not', 'a', 'complete', 'sentence'].remove('not');
-			  *        ```
-			  * @returns The new array without the removed item.
-			  **/
-			 
-			 // Removing the item at its index
-			 this.splice(this.indexOf(item), 1);
-			 
-			 // Returning the new array
-			 return this
-		};
-		String.prototype.replaceAll = function(search, replacement) {
-			 /**
-			  * @meta String.replaceAll [function]
-			  * @purpose Replaces all instances of substring in string.
-			  * @usage Replace multiple substrings
-			  *        ```javascript
-			  *        'Hi (unwanted1)(unwanted2)Bob'.replaceAll(['(unwanted1)', '(unwanted2)'], '');
-			  *        ```
-			  *         Replace one substring
-			  *        ```javascript
-			  *        'Hi (unwanted)'.replaceAll('(unwanted)', '');
-			  *        ```
-			  * @returns The new string with proper replacement(s).
-			  **/
-			 var searches = Array.isArray(search) ? search : [search];
+	Array.prototype.remove = function(item) {
+		 /**
+		  * @meta Array.remove [function]
+		  * @purpose Remove index from array by its value.
+		  * @justify This is a simpler integration than Array.splice, as you need not know the index beforehand.
+		  * @usage ```javascript
+		  *        ['This', 'is', 'not', 'a', 'complete', 'sentence'].remove('not');
+		  *        ```
+		  * @returns The new array without the removed item.
+		  **/
 
-			 var result = this;
-			 searches.forEach(function(phrase) {
-				  result = result.replace(new RegExp(phrase, 'g'), replacement);
-			 });
+		 // Removing the item at its index
+		 this.splice(this.indexOf(item), 1);
 
-			 return result
-		};
-		String.prototype.capitalize = function() {
-			 /**
-			  * @meta String.capitalize [function]
-			  * @purpose Capitalize the first letter of a string.
-			  * @usage Will set `test` equal to `'Test'`
-			  *        ```javascript
-			  *        var test = 'TEST';
-			  *        test = test.capitalize();
-			  *        ```
-			  * @returns `String` with first letter capitalized.
-			  **/
-			 return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
-		};
-		Function.prototype.async = function(callback) {
-			 /**
-			  * @meta Function.async [function]
-			  * @purpose Loads a function asynchronously.
-			  * @usage Run a function asynchronously
-			  *        ```javascript
-			  *        function() { console.log('Will log async!') }.async();
-			  *        ```
-			  *        Run a function asynchronously with a callback
-			  *        ```javascript
-			  *        function() { console.log('Will log async!') }.async(function() {
-			  *            console.log('Will log when first logging is done!')
-			  *        });
-			  *        ```
-			  **/
-			 // Storing function in variable so it can be accessed in below function
-			 var functionToRun = this;
-	
-			 setTimeout(function() { functionToRun(); if (callback) callback(); }, 0)
-		}
+		 // Returning the new array
+		 return this
+	};
+	String.prototype.replaceAll = function(search, replacement) {
+		 /**
+		  * @meta String.replaceAll [function]
+		  * @purpose Replaces all instances of substring in string.
+		  * @usage Replace multiple substrings
+		  *        ```javascript
+		  *        'Hi (unwanted1)(unwanted2)Bob'.replaceAll(['(unwanted1)', '(unwanted2)'], '');
+		  *        ```
+		  *         Replace one substring
+		  *        ```javascript
+		  *        'Hi (unwanted)'.replaceAll('(unwanted)', '');
+		  *        ```
+		  * @returns The new string with proper replacement(s).
+		  **/
+		 let searches = Array.isArray(search) ? search : [search];
+
+		 let result = this;
+		 searches.forEach(function(phrase) {
+			  result = result.replace(new RegExp(phrase, 'g'), replacement);
+		 });
+
+		 return result
+	};
+	String.prototype.capitalize = function() {
+		 /**
+		  * @meta String.capitalize [function]
+		  * @purpose Capitalize the first letter of a string.
+		  * @usage Will set `test` equal to `'Test'`
+		  *        ```javascript
+		  *        var test = 'TEST';
+		  *        test = test.capitalize();
+		  *        ```
+		  * @returns `String` with first letter capitalized.
+		  **/
+		 return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
+	};
+	Function.prototype.async = function(callback) {
+		 /**
+		  * @meta Function.async [function]
+		  * @purpose Loads a function asynchronously.
+		  * @usage Run a function asynchronously
+		  *        ```javascript
+		  *        function() { console.log('Will log async!') }.async();
+		  *        ```
+		  *        Run a function asynchronously with a callback
+		  *        ```javascript
+		  *        function() { console.log('Will log async!') }.async(function() {
+		  *            console.log('Will log when first logging is done!')
+		  *        });
+		  *        ```
+		  **/
+		 // Storing function in variable so it can be accessed in below function
+		 let functionToRun = this;
+
+		 setTimeout(function() { functionToRun(); if (callback) callback(); }, 0)
+	}
     },
     
     supplementJQuery: function() {
@@ -129,12 +129,12 @@ var Core = {
 			 *			{ top: <margin-top>, right: <margin-right>, bottom: <margin-bottom>, left: <margin-left> }
 			 * 			```
 			 **/
-			 var marginValues = {};
+			 let marginValues = {};
 		
-			 var marginTypes = ['top', 'right', 'bottom', 'left'];
-			 for (var i = 0; i < marginTypes.length; i++) {
+			 let marginTypes = ['top', 'right', 'bottom', 'left'];
+			 for (let i = 0, len = marginTypes.length; i < len; i++) {
 			 	// Turning e.g. "10px" ==> 10
-			 	var thisMarginType = $(this).css('margin-'+marginTypes[i]);
+			 	let thisMarginType = $(this).css('margin-'+marginTypes[i]);
 
 			 	marginValues[marginTypes[i]] = parseFloat(thisMarginType.substring(0, thisMarginType.length - 2))
 			 };
@@ -152,10 +152,10 @@ var Core = {
 			 *        ```
 			 * @returns Element(s) passed in.
 			 **/
-			var keys = Object.keys(css);
-			var browsers = ['-webkit-', '-moz-', '-ms-', '-o-'];
+			let keys = Object.keys(css);
+			let browsers = ['-webkit-', '-moz-', '-ms-', '-o-'];
 
-			var newCSS = {};
+			let newCSS = {};
 			keys.forEach(function(key) {
 				browsers.forEach(function(browser) {
 				    // Adding browser preface to key name, i.e. -o-animation
@@ -183,14 +183,14 @@ var Core = {
 			 *        ```
 			 * @returns Element(s) passed in.
 			 **/
-			var defaultOptions = {
+			let defaultOptions = {
 				degrees: 90,
 				duration: 0,
 				callback: function() {}
 			};
 			options = Core.setOptions(defaultOptions, options);
 
-			var transformCSS = 'rotate('+options.degrees+'deg)'+( ($(this).attr('id') === 'phone') ? ' translateX(108%) translateY(-38%)' : '' );
+			let transformCSS = 'rotate('+options.degrees+'deg)'+( ($(this).attr('id') === 'phone') ? ' translateX(108%) translateY(-38%)' : '' );
 			if (options.degrees === 0) transformCSS = '';
 
 			$(this).globalCSS({
@@ -212,12 +212,12 @@ var Core = {
 			 * @purpose Check if an input or a set of inputs have text in them.
 			 * @returns Type: `Boolean`
 			 **/
-			var elements = $(this);
-			var elementList = Object.keys($(this));
-			var isOk = true;
+			let elements = $(this);
+			let elementList = Object.keys($(this));
+			let isOk = true;
 		
 			elementList.forEach(function(element) {
-				var thisElement = elements[elementList[element]];
+				let thisElement = elements[elementList[element]];
 		
 				// Exceptions (not actually elements)
 				if (['selector', 'context', 'length'].indexOf(element) > -1) return;
@@ -237,13 +237,13 @@ var Core = {
 			 *          { 0: 'width:10px;height:5px;', 1: 'background:green' }
 			 *          ```
 			 **/
-			var allCSS = {};
+			let allCSS = {};
 
 			for (var e = 0; e < $(this).length; e++) {
-				var cssString = '';
-				var css = getComputedStyle($(this).get(e));
+				let cssString = '';
+				let css = getComputedStyle($(this).get(e));
 
-				for(var i = 0; i < css.length; i++) {
+				for(let i = 0, len = css.length; i < len; i++) {
 					cssString += css[i] + ':' + css.getPropertyValue(css[i])+';';
 				}
 				allCSS[e] = cssString;
@@ -267,14 +267,14 @@ var Core = {
          **/
         if (options === undefined) options = {};
 
-        var newOptions = {};
-        for (var i = 0; i < Object.keys(defaultOptions).length; i++) {
+        let newOptions = {};
+        for (let i = 0, len = Object.keys(defaultOptions).length; i < len; i++) {
             // { "thisKey": "thisValue" } <= Looping through the entire object like this, treating as an array
-            var thisKey = Object.keys(defaultOptions)[i];
-            var defaultValue = defaultOptions[thisKey];
+            let thisKey = Object.keys(defaultOptions)[i];
+            let defaultValue = defaultOptions[thisKey];
 
-            var allOptionsUnset = options === undefined || options === null;
-            var thisOptionUnset = options[thisKey] === undefined || options[thisKey] === null || options[thisKey] === '';
+            let allOptionsUnset = options === undefined || options === null;
+            let thisOptionUnset = options[thisKey] === undefined || options[thisKey] === null || options[thisKey] === '';
 
             // Falling back to default if not set, overriding the default if set
             if (allOptionsUnset || thisOptionUnset) {
@@ -299,7 +299,7 @@ var Core = {
          * @returns Type: `Element`
          *          The script element that has been added. 
          **/
-        var defaultOptions = {
+        const defaultOptions = {
             id: '', // HTML element ID to be set
             classes: [], // Any and all classes the element will have
             src: 'site.js', // Source for the script
@@ -307,10 +307,10 @@ var Core = {
         };
         options = Core.setOptions(defaultOptions, options);
 
-        var script = document.createElement('script');
+        let script = document.createElement('script');
         script.id = options.id;
 
-        for (var i = 0; i < options.classes.length; i++) {
+        for (let i = 0, len = options.classes.length; i < len; i++) {
             script.classList.add(options.classes[i])
         };
 
@@ -370,8 +370,8 @@ var Core = {
 
 		name = name.replace(/[\[\]]/g, "\\$&");
 
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
-		var results = regex.exec(url);
+		let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+		let results = regex.exec(url);
 
 		if (!results) return null;
 		if (!results[2]) return '';
@@ -397,21 +397,21 @@ var Core = {
 		 * @returns Type: `Object`
 		 *			Contains `key` which is the parameter name, as well as its `value` and the new `url`
 		 **/
-		var defaultOptions = {
+		let defaultOptions = {
 		    refresh: false
 		};
 		options = Core.setOptions(defaultOptions, options);
 
-		var newURL = '';
-		var currentParam = getParameter(key);
+		let newURL = '';
+		let currentParam = getParameter(key);
 
 		if (currentParam) {
 		    // Param exists; editing existing instead of adding anew
-		    var currentStartPos = location.href.indexOf(key);
-		    var currentEndPos = location.href.indexOf(key+'='+currentParam)+key.length+1+currentParam.length;
+		    let currentStartPos = location.href.indexOf(key);
+		    let currentEndPos = location.href.indexOf(key+'='+currentParam)+key.length+1+currentParam.length;
 
 		    // 'clouds=2' in https://mysite.com/?clouds=2&other=value2
-		    var current = location.href.substring(currentStartPos, currentEndPos);
+		    let current = location.href.substring(currentStartPos, currentEndPos);
 
 		    // Editing new parameter
 		    newURL = location.href.substring(0, currentStartPos)+key+'='+value+location.href.substring(currentEndPos)
@@ -456,7 +456,7 @@ var Core = {
 		 *          An array of numbers that will be re-randomized if hit.
 		 * @returns Random `Number`
 		 **/
-		var value = Math.floor(Math.random()*Math.floor(max+1));
+		const value = Math.floor(Math.random()*Math.floor(max+1));
 
 		// Catching if blacklist isn't set
 		blacklist = blacklist || [];
@@ -501,21 +501,21 @@ var Core = {
 		 *		  ```   
 		 **/
 		if (!callback) callback = function() {};
-		var index = 0;
+		let index = 0;
 
-		var metadata = [];
-		var loadNext = function() {
-		    var src = Core.uncacheFile(images[index]);
-		    var isLastImage = index + 1 === images.length;
+		let metadata = [];
+		const loadNext = function() {
+		    const src = Core.uncacheFile(images[index]);
+		    const isLastImage = index + 1 === images.length;
 		    index++;
 
-		    var startTime = getMS();
-		    var image = new Image();
+		    const startTime = Core.getMS();
+		    let image = new Image();
 		    image.src = src;
 
 		    // Not continuing the loop or running the final callback until this image is loaded
-		    var proceed = function(success) {
-		        metadata[index-1] = { src: src, success: success, elapsed: getMS() - startTime };
+		    const proceed = function(success) {
+		        metadata[index-1] = { src: src, success: success, elapsed: Core.getMS() - startTime };
 		        !isLastImage ? loadNext() : callback(metadata); 
 		    };
 		    image.onload = function() { proceed(true) };
@@ -550,8 +550,7 @@ var Core = {
 		 *          ##### `checkGap` Required: `false` Default: `5`
 		 *          How frequently in milliseconds the condition is checked.
 		 **/
-
-		var defaultOptions = {
+		const defaultOptions = {
 		    condition: function() { return $('body').is(':visible') }, // Condition to wait for
 		    callback: function() {}, // Function to run on timeout or when element is visible 
 		    timeout: 5000, // The total ms ceiling before timing out
@@ -560,11 +559,11 @@ var Core = {
 		options = Core.setOptions(defaultOptions, options);
 
 		// By default, this will check 1000 times, 5ms between each check
-		var checks = 0;
-		var limit = options.timeout/options.checkGap;
-		var success = false;
+		let checks = 0;
+		let limit = options.timeout/options.checkGap;
+		let success = false;
 
-		var check = function() {
+		let check = function() {
 		    checks++;
 
 		    if (options.condition()) return options.callback({ success: true, elapsed: checks*options.checkGap, checkGap: options.checkGap, timeout: options.timeout });
@@ -578,29 +577,5 @@ var Core = {
 
 		check()
 	}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+       
 }
