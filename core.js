@@ -6,116 +6,116 @@
  **/
 
 const Core = {
-    init: function(options) {
-        /**
-         * @meta Core.init [function]
-         * @options ##### `ready`
-	 *          Type: `Function`
-	 *          Function that loads once Webcore is fully initialized.
-	 *          ##### `forceHTTPS`
-         *          Type: `Boolean` Default: `false`
-         *          Will refresh with HTTPS if user loads the page on HTTP.
-         **/
-        const defaultOptions = {
-	    ready: function() {},
-            forceHTTPS: false
-        };
-        options = Core.setOptions(defaultOptions, options);
+	init: function(options) {
+		/**
+		 * @meta Core.init [function]
+		 * @options ##### `ready`
+		 *          Type: `Function`
+		 *          Function that loads once Webcore is fully initialized.
+		 *          ##### `forceHTTPS`
+		 *          Type: `Boolean` Default: `false`
+		 *          Will refresh with HTTPS if user loads the page on HTTP.
+		 **/
+		const defaultOptions = {
+		    ready: function() {},
+		    forceHTTPS: false
+		};
+		options = Core.setOptions(defaultOptions, options);
 
-        if (options.forceHTTPS) {
-            if (location.href.substring(0, 5) !== 'https') location.href = 'https'+location.href.substring(4);
-        };
+		if (options.forceHTTPS) {
+		    if (location.href.substring(0, 5) !== 'https') location.href = 'https'+location.href.substring(4);
+		};
 
-        this.addScript({ src: 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', callback: function() {
-            $(document).ready(function() {
-                Core.supplementJS();
-                Core.supplementJQuery();
-	        options.ready();
-            });
-        }})
-        
-    },
+		this.addScript({ src: 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', callback: function() {
+		    $(document).ready(function() {
+			Core.supplementJS();
+			Core.supplementJQuery();
+			options.ready();
+		    });
+		}});
 
-    supplementJS: function() {
-        // Adding functions to native JavaScript
-	Array.prototype.remove = function(item) {
-		 /**
-		  * @meta Array.remove [function]
-		  * @purpose Remove index from array by its value.
-		  * @justify This is a simpler integration than Array.splice, as you need not know the index beforehand.
-		  * @usage ```javascript
-		  *        ['This', 'is', 'not', 'a', 'complete', 'sentence'].remove('not');
-		  *        ```
-		  * @returns The new array without the removed item.
-		  **/
+	},
 
-		 // Removing the item at its index
-		 this.splice(this.indexOf(item), 1);
+	supplementJS: function() {
+		// Adding functions to native JavaScript
+		Array.prototype.remove = function(item) {
+			 /**
+			  * @meta Array.remove [function]
+			  * @purpose Remove index from array by its value.
+			  * @justify This is a simpler integration than Array.splice, as you need not know the index beforehand.
+			  * @usage ```javascript
+			  *        ['This', 'is', 'not', 'a', 'complete', 'sentence'].remove('not');
+			  *        ```
+			  * @returns The new array without the removed item.
+			  **/
 
-		 // Returning the new array
-		 return this
-	};
-	String.prototype.replaceAll = function(search, replacement) {
-		 /**
-		  * @meta String.replaceAll [function]
-		  * @purpose Replaces all instances of substring in string.
-		  * @usage Replace multiple substrings
-		  *        ```javascript
-		  *        'Hi (unwanted1)(unwanted2)Bob'.replaceAll(['(unwanted1)', '(unwanted2)'], '');
-		  *        ```
-		  *         Replace one substring
-		  *        ```javascript
-		  *        'Hi (unwanted)'.replaceAll('(unwanted)', '');
-		  *        ```
-		  * @returns The new string with proper replacement(s).
-		  **/
-		 let searches = Array.isArray(search) ? search : [search];
+			 // Removing the item at its index
+			 this.splice(this.indexOf(item), 1);
 
-		 let result = this;
-		 searches.forEach(function(phrase) {
-			  result = result.replace(new RegExp(phrase, 'g'), replacement);
-		 });
+			 // Returning the new array
+			 return this
+		};
+		String.prototype.replaceAll = function(search, replacement) {
+			 /**
+			  * @meta String.replaceAll [function]
+			  * @purpose Replaces all instances of substring in string.
+			  * @usage Replace multiple substrings
+			  *        ```javascript
+			  *        'Hi (unwanted1)(unwanted2)Bob'.replaceAll(['(unwanted1)', '(unwanted2)'], '');
+			  *        ```
+			  *         Replace one substring
+			  *        ```javascript
+			  *        'Hi (unwanted)'.replaceAll('(unwanted)', '');
+			  *        ```
+			  * @returns The new string with proper replacement(s).
+			  **/
+			 let searches = Array.isArray(search) ? search : [search];
 
-		 return result
-	};
-	String.prototype.capitalize = function() {
-		 /**
-		  * @meta String.capitalize [function]
-		  * @purpose Capitalize the first letter of a string.
-		  * @usage Will set `test` equal to `'Test'`
-		  *        ```javascript
-		  *        var test = 'TEST';
-		  *        test = test.capitalize();
-		  *        ```
-		  * @returns `String` with first letter capitalized.
-		  **/
-		 return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
-	};
-	Function.prototype.async = function(callback) {
-		 /**
-		  * @meta Function.async [function]
-		  * @purpose Loads a function asynchronously.
-		  * @usage Run a function asynchronously
-		  *        ```javascript
-		  *        function() { console.log('Will log async!') }.async();
-		  *        ```
-		  *        Run a function asynchronously with a callback
-		  *        ```javascript
-		  *        function() { console.log('Will log async!') }.async(function() {
-		  *            console.log('Will log when first logging is done!')
-		  *        });
-		  *        ```
-		  **/
-		 // Storing function in variable so it can be accessed in below function
-		 let functionToRun = this;
+			 let result = this;
+			 searches.forEach(function(phrase) {
+				  result = result.replace(new RegExp(phrase, 'g'), replacement);
+			 });
 
-		 setTimeout(function() { functionToRun(); if (callback) callback(); }, 0)
-	}
-    },
-    
-    supplementJQuery: function() {
-        // Adding functions to jQuery
-        $.fn.getMargins = function() {
+			 return result
+		};
+		String.prototype.capitalize = function() {
+			 /**
+			  * @meta String.capitalize [function]
+			  * @purpose Capitalize the first letter of a string.
+			  * @usage Will set `test` equal to `'Test'`
+			  *        ```javascript
+			  *        var test = 'TEST';
+			  *        test = test.capitalize();
+			  *        ```
+			  * @returns `String` with first letter capitalized.
+			  **/
+			 return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
+		};
+		Function.prototype.async = function(callback) {
+			 /**
+			  * @meta Function.async [function]
+			  * @purpose Loads a function asynchronously.
+			  * @usage Run a function asynchronously
+			  *        ```javascript
+			  *        function() { console.log('Will log async!') }.async();
+			  *        ```
+			  *        Run a function asynchronously with a callback
+			  *        ```javascript
+			  *        function() { console.log('Will log async!') }.async(function() {
+			  *            console.log('Will log when first logging is done!')
+			  *        });
+			  *        ```
+			  **/
+			 // Storing function in variable so it can be accessed in below function
+			 let functionToRun = this;
+
+			 setTimeout(function() { functionToRun(); if (callback) callback(); }, 0)
+		}
+	},
+
+	supplementJQuery: function() {
+		// Adding functions to jQuery
+		$.fn.getMargins = function() {
 			/**
 			 * @meta $('selector').getMargins [function]
 			 * @purpose Get the margins of a particular element, returned as a float.
@@ -130,15 +130,15 @@ const Core = {
 			 * 			```
 			 **/
 			 let marginValues = {};
-		
+
 			 let marginTypes = ['top', 'right', 'bottom', 'left'];
 			 for (let i = 0, len = marginTypes.length; i < len; i++) {
-			 	// Turning e.g. "10px" ==> 10
-			 	let thisMarginType = $(this).css('margin-'+marginTypes[i]);
+				// Turning e.g. "10px" ==> 10
+				let thisMarginType = $(this).css('margin-'+marginTypes[i]);
 
-			 	marginValues[marginTypes[i]] = parseFloat(thisMarginType.substring(0, thisMarginType.length - 2))
+				marginValues[marginTypes[i]] = parseFloat(thisMarginType.substring(0, thisMarginType.length - 2))
 			 };
-			 
+
 			 return marginValues
 		};
 		$.fn.globalCSS = function(css) {
@@ -215,13 +215,13 @@ const Core = {
 			let elements = $(this);
 			let elementList = Object.keys($(this));
 			let isOk = true;
-		
+
 			elementList.forEach(function(element) {
 				let thisElement = elements[elementList[element]];
-		
+
 				// Exceptions (not actually elements)
 				if (['selector', 'context', 'length'].indexOf(element) > -1) return;
-				
+
 				if (!$(thisElement).val() || $(thisElement).val().length < 1) isOk = false; 
 			});
 
@@ -250,115 +250,126 @@ const Core = {
 			};
 
 			return allCSS
-		}
-    },
+		};
+		$.fn.hasScrollbar = function() {
+			/**
+			 * @meta $('selector').hasScrollbar [function]
+			 * @purpose Check whether or not an element currently has a scrollbar attached to it.
+			 * @returns Type: `Boolean`
+			 *          Whether or not the specified element has a scrollbar.
+			 **/
+			// If the scrollHeight is bigger than the height of the element (w/ 2px offset), then true.
+			return $(this)[0].scrollHeight > ($(this).outerHeight()+2);
+		};
+	},
 
-    setOptions: function(defaultOptions, options) {
-        /**
-         * @meta Core.setOptions [function]
-         * @purpose Merge two objects that may or may not overlap where the options override the default but the default are a fallback if an option wasn't set.
-         * @usage ```javascript
-         *        Core.setOptions({ unsetOption: 'defaultValue', otherOption: 'defaultValue' }, { otherOption: 'set' })
-         *        ```
-         * @returns Type: `Object`
-         *          ```javascript
-         *          { unsetOption: 'defaultValue', otherOption: 'set' }
-         *          ```
-         **/
-        if (options === undefined) options = {};
-
-        let newOptions = {};
-        for (let i = 0, len = Object.keys(defaultOptions).length; i < len; i++) {
-            // { "thisKey": "thisValue" } <= Looping through the entire object like this, treating as an array
-            let thisKey = Object.keys(defaultOptions)[i];
-            let defaultValue = defaultOptions[thisKey];
-
-            let allOptionsUnset = options === undefined || options === null;
-            let thisOptionUnset = options[thisKey] === undefined || options[thisKey] === null || options[thisKey] === '';
-
-            // Falling back to default if not set, overriding the default if set
-            if (allOptionsUnset || thisOptionUnset) {
-                // This option wasn't set; falling back to default
-                newOptions[thisKey] = defaultValue;
-            } else {
-                // This option was set; not using default
-                newOptions[thisKey] = options[thisKey];
-            }
-        };
-        // The result: an object that need not any if statements to check if null
-        return newOptions
-    },
-
-    addScript: function(options) {
-        /**
-         * @meta Core.addScript [function]
-         * @purpose Add a script to the DOM with a callback.
-         * @usage ```javascript
-         *        Core.addScript({ src: 'myscript.js', callback: function() { console.log('Script '+src+' is ready!') } });
-         *        ```
-         * @returns Type: `Element`
-         *          The script element that has been added. 
-         **/
-        const defaultOptions = {
-            id: '', // HTML element ID to be set
-            classes: [], // Any and all classes the element will have
-            src: 'site.js', // Source for the script
-            callback: function() {} // Callback when the script is loaded
-        };
-        options = Core.setOptions(defaultOptions, options);
-
-        let script = document.createElement('script');
-        script.id = options.id;
-
-        for (let i = 0, len = options.classes.length; i < len; i++) {
-            script.classList.add(options.classes[i])
-        };
-
-        script.src = options.src;
-        script.onload = options.callback;
-
-        // document.head.append is not yet fully cross-browser, hence [...].appendChild
-        return document.getElementsByTagName('head')[0].appendChild(script);
-    },
-	
-    isMobile: {
-        /**
-         * @meta Core.isMobile [object]
-         * @purpose Detect if user is on a mobile device, and if so which device.
-         * @usage ```javascript
-         *        Core.isMobile.any();
-         *        Core.isMobile.Android();
-         *        Core.isMobile.Blackberry();
-         *        Core.isMobile.iOS();
-         *        Core.isMobile.Opera();
-         *        Core.isMobile.Windows();
-         *        ```
-         * @returns Type: `Array`
-         *          `null` or the device data for the mobile device being used.
-         **/  
-        Android: function() {
-            return navigator.userAgent.match(/Android/i)
-        },
-        BlackBerry: function() {
-            return navigator.userAgent.match(/BlackBerry/i)
-        },
-        iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPod|iPad/i)
-        },
-        Opera: function() {
-            return navigator.userAgent.match(/Opera Mini/i)
-        },
-        Windows: function() {
-            return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i)
-        },
-        any: function() {
-            return this.Android() || this.BlackBerry() || this.iOS() || this.Opera() || this.Windows()
-        }
-    },
-        
-    getParameter: function(name, url) {
+	setOptions: function(defaultOptions, options) {
 		/**
-		 * @meta getParameter [function]
+		 * @meta Core.setOptions [function]
+		 * @purpose Merge two objects that may or may not overlap where the options override the default but the default are a fallback if an option wasn't set.
+		 * @usage ```javascript
+		 *        Core.setOptions({ unsetOption: 'defaultValue', otherOption: 'defaultValue' }, { otherOption: 'set' })
+		 *        ```
+		 * @returns Type: `Object`
+		 *          ```javascript
+		 *          { unsetOption: 'defaultValue', otherOption: 'set' }
+		 *          ```
+		 **/
+		if (options === undefined) options = {};
+
+		let newOptions = {};
+		for (let i = 0, len = Object.keys(defaultOptions).length; i < len; i++) {
+		    // { "thisKey": "thisValue" } <= Looping through the entire object like this, treating as an array
+		    let thisKey = Object.keys(defaultOptions)[i];
+		    let defaultValue = defaultOptions[thisKey];
+
+		    let allOptionsUnset = options === undefined || options === null;
+		    let thisOptionUnset = options[thisKey] === undefined || options[thisKey] === null || options[thisKey] === '';
+
+		    // Falling back to default if not set, overriding the default if set
+		    if (allOptionsUnset || thisOptionUnset) {
+			// This option wasn't set; falling back to default
+			newOptions[thisKey] = defaultValue;
+		    } else {
+			// This option was set; not using default
+			newOptions[thisKey] = options[thisKey];
+		    }
+		};
+		
+		// The result: an object that need not any if statements to check if null
+		return newOptions
+	},
+
+	addScript: function(options) {
+		/**
+		 * @meta Core.addScript [function]
+		 * @purpose Add a script to the DOM with a callback.
+		 * @usage ```javascript
+		 *        Core.addScript({ src: 'myscript.js', callback: function() { console.log('Script '+src+' is ready!') } });
+		 *        ```
+		 * @returns Type: `Element`
+		 *          The script element that has been added. 
+		 **/
+		const defaultOptions = {
+		    id: '', // HTML element ID to be set
+		    classes: [], // Any and all classes the element will have
+		    src: 'site.js', // Source for the script
+		    callback: function() {} // Callback when the script is loaded
+		};
+		options = Core.setOptions(defaultOptions, options);
+
+		let script = document.createElement('script');
+		script.id = options.id;
+
+		for (let i = 0, len = options.classes.length; i < len; i++) {
+		    script.classList.add(options.classes[i])
+		};
+
+		script.src = options.src;
+		script.onload = options.callback;
+
+		// document.head.append is not yet fully cross-browser, hence [...].appendChild
+		return document.getElementsByTagName('head')[0].appendChild(script);
+	},
+
+	isMobile: {
+		/**
+		 * @meta Core.isMobile [object]
+		 * @purpose Detect if user is on a mobile device, and if so which device.
+		 * @usage ```javascript
+		 *        Core.isMobile.any();
+		 *        Core.isMobile.Android();
+		 *        Core.isMobile.Blackberry();
+		 *        Core.isMobile.iOS();
+		 *        Core.isMobile.Opera();
+		 *        Core.isMobile.Windows();
+		 *        ```
+		 * @returns Type: `Array`
+		 *          `null` or the device data for the mobile device being used.
+		 **/  
+		Android: function() {
+		    return navigator.userAgent.match(/Android/i)
+		},
+		BlackBerry: function() {
+		    return navigator.userAgent.match(/BlackBerry/i)
+		},
+		iOS: function() {
+		    return navigator.userAgent.match(/iPhone|iPod|iPad/i)
+		},
+		Opera: function() {
+		    return navigator.userAgent.match(/Opera Mini/i)
+		},
+		Windows: function() {
+		    return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i)
+		},
+		any: function() {
+		    return this.Android() || this.BlackBerry() || this.iOS() || this.Opera() || this.Windows()
+		}
+	},
+        
+	getParameter: function(name, url) {
+		/**
+		 * @meta Core.getParameter [function]
 		 * @purpose Get a parameter from a URL. If no URL is passed, the current one is used.
 		 * @usage Returns 'beagle'
 		 *		  ```javascript
@@ -381,7 +392,7 @@ const Core = {
 
 	setParameter: function(key, value, options) {
 		/**
-		 * @meta setParameter [function]
+		 * @meta Core.setParameter [function]
 		 * @purpose Set a query to the current URL.
 		 * @usage Sets as 'https://mysite.com/?cat=siamese'
 		 *		  ```javascript
@@ -431,7 +442,7 @@ const Core = {
 	
 	getMS: function() {
 		/**
-		 * @meta getMS [function]
+		 * @meta Core.getMS [function]
 		 * @purpose Get the current time since last epoch in milliseconds.
 		 * @returns Type: `Number`
 		 * 			MS since last epoch.
@@ -441,7 +452,7 @@ const Core = {
 
 	random: function(max, blacklist) {
 		/**
-		 * @meta random [function]
+		 * @meta Core.random [function]
 		 * @purpose Get random `Integer` with a specified ceiling and optional blacklist of numbers.
 		 * @usage Get a random integer between 0-5000.
 		 *		  ```javascript
@@ -467,7 +478,7 @@ const Core = {
 
 	uncacheFile: function(file) {
 		/**
-		 * @meta uncacheFile [function]
+		 * @meta Core.uncacheFile [function]
 		 * @purpose Get a new file name with an uncaching query on the end.
 		 * @usage ```javascript
 		 * 			 uncacheFile('file.js');
@@ -483,7 +494,7 @@ const Core = {
 
 	preload: function(images, callback) {
 		/**
-		 * @meta preload [function]
+		 * @meta Core.preload [function]
 		 * @purpose Preload an array of images synchronously with a callback at the end.
 		 * @usage Preload `landscape.png` with no callback.
 		 *	      ```javascript
@@ -527,7 +538,7 @@ const Core = {
 
 	waitUntilThis: function(options) {
 		/**
-		 * @meta waitUntilThis [function]
+		 * @meta Core.waitUntilThis [function]
 		 * @purpose Wait until a specific condition happens. Make sure to wrap the condition in a function and a return statement so that the Boolean can be checked dynamically!
 		 * @usage Run the callback when #entry is visible, and timeout after 5000ms.
 		 *        ```javascript
