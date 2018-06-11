@@ -272,7 +272,7 @@ const Core = {
 			$(this).on('mousedown', function() {
 				if (typeof(holdListener) === 'function') holdListener();
 
-				$(this).on('mouseup', liftListener);
+				$(window).on('mouseup', liftListener);
 			});
 		};
 	},
