@@ -261,6 +261,20 @@ const Core = {
 			// If the scrollHeight is bigger than the height of the element (w/ 2px offset), then true.
 			return $(this)[0].scrollHeight > ($(this).outerHeight()+2);
 		};
+		$.fn.hold = function(holdListener, liftListener) {
+			/**
+			 * @meta $('selector').hold [function]
+			 * @purpose Run listeners while an element is being held and released by the mouse.
+			 * @usage ```javascript
+			 *        $('#hold').hold(holdListener, liftListener);
+			 *	  ```
+			 */
+			$(this).on('mousedown', function() {
+				if (typeof(holdListener) === 'function') holdListener();
+
+				$(this).on('mouseup', liftListener);
+			});
+		};
 	},
 
 	setOptions: function(defaultOptions, options) {
