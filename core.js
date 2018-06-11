@@ -245,7 +245,7 @@ const Core = {
 
 				for(let i = 0, len = css.length; i < len; i++) {
 					cssString += css[i] + ':' + css.getPropertyValue(css[i])+';';
-				}
+				};
 				allCSS[e] = cssString;
 			};
 
